@@ -1,17 +1,16 @@
 .Operators {
     display: flex;
     flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1rem;
-    max-width: 5rem;
 }
 
 .OperatorButton {
+    display: flex;
     justify-content: center;
+    align-content: center;
     background-color: white;
-    padding: 2rem;
-    margin: .5rem;
+    width: 4rem;
+    height: 4rem;
+    margin: .2rem;
     text-align: center;
     align-items: center;
     border-radius: 5px;

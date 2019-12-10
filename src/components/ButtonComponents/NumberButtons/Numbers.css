@@ -1,16 +1,17 @@
 .Numbers {
-    margin: 1rem;
+    /* margin: 1rem; */
     display: flex;
     flex-flow: row wrap;
-    justify-content:center;
-    max-width:25rem;
+    justify-content: center;
 }
 
 .NumberButton {
+    display: flex;
     justify-content: center;
     background-color: grey;
-    padding: 3rem;
-    margin: .2rem;
+    height: 25%;
+    width: 7.7rem;
+    /* height: 7rem; */
     text-align: center;
     align-items: center;
     border-radius: 5px;
