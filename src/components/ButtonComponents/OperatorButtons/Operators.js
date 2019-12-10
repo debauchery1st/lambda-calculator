@@ -12,7 +12,7 @@ const Operators = () => {
        component matching the name on the provided file. Pass
        it any props needed by the child component*/
   return (
-    <div className="Operators">{operatorState.map(OperatorButton)}</div>
+    <div className="Operators">{operatorState.map((n, idx) => <OperatorButton key={idx} button={n} />)}</div>
   );
 };
 export default Operators;

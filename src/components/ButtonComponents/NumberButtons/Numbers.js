@@ -13,12 +13,13 @@ const Numbers = () => {
   // STEP 2 - add the imported data to state
   // const [numberState, setNumberState] = useState(numbers);
   const [numberState, setNumberState] = useState(numbers);
-  const buttonOrder = (choice) => (choice === "standard") ? [6, 7, 8, 3, 4, 5, 0, 1, 2, 9, 10].map((n) => numberState[n]).map(NumberButton):numberState.map(NumberButton);
+  const buttonOrder = [6, 7, 8, 3, 4, 5, 0, 1, 2, 9, 10];
+  // .map((n) => numberState[n])    :numberState;
 /* STEP 3 - Use .map() to iterate over your array data and return a button
        component matching the name on the provided file. Pass
        it any props needed by the child component*/
   return (
-    <div className="Numbers">{buttonOrder("standard")}</div>
+    <div className="Numbers">{buttonOrder.map((n) => <NumberButton key={n-1} button={numberState[n-1]} />)}</div>
   );
 };
 
