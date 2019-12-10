@@ -1,0 +1,18 @@
+.Specials {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    width: 11rem;
+    margin: 1rem 3.5rem;
+    align-items: center;
+}
+
+.SpecialButton {
+    justify-content: center;
+    background-color: dodgerblue;
+    padding: 1rem;
+    text-align: center;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid black;
+}

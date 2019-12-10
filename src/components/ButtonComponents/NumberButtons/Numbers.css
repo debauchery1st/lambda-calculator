@@ -1,0 +1,18 @@
+.Numbers {
+    margin: 1rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content:center;
+    max-width:25rem;
+}
+
+.NumberButton {
+    justify-content: center;
+    background-color: grey;
+    padding: 3rem;
+    margin: .2rem;
+    text-align: center;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid black;
+}
