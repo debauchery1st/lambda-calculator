@@ -8,12 +8,12 @@ import "./Specials.css";
 
 const Specials = () => {
   // STEP 2 - add the imported data to state
-  const [specialState, setspecialState] = useState(specials);
+  const [specialState] = useState(specials);
 /* STEP 3 - Use .map() to iterate over your array data and return a button
        component matching the name on the provided file. Pass
        it any props needed by the child component*/
   return (
-    <div className="Specials">{specialState.map((n, idx) => <SpecialButton key={idx} button={n} />)}</div>
+    <div className="Specials">{specialState.map((n, idx) => <SpecialButton key={`s${idx}`} button={n} />)}</div>
   );
 };
 

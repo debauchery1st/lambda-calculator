@@ -24,10 +24,10 @@ function App() {
     <div className="container">
       <Logo />
       <div className="App">
-        {Display(displaying)}
-        {Specials()}
+        {<Display stdout={displaying} />}
+        {<Specials />}
         <div style={{display: "flex", justifyContent: "center"}}>
-          {Numbers()}{Operators()}
+          {<Numbers />}{<Operators />}
         </div>
       </div>
     </div>
