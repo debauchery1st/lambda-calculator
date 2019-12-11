@@ -12,7 +12,34 @@ import Logo from "./components/DisplayComponents/Logo";
 
 function App() {
   const [displaying, setDisplaying] = useState(0);
-  
+  const [reducer, setReducer] = useState([]);
+  const [computing, setComputing] = useState([]);
+  const setDisplay = (args) => {
+    const nextDisplay = (args === ".") ? ((displaying.includes(".")) ? displaying:[displaying, args].join("")):[displaying, args].join(""); // 1 decimal point only
+    setDisplaying(nextDisplay.endsWith(".") ? nextDisplay:String(Math.abs(nextDisplay))); // no leading zero
+  }
+  const specialOp = (args) => {
+    if (args === "C") setDisplaying("0");
+  }
+  const mathOps = {
+    "*": (r) => r.reduce((a, b) => a * b),
+    "+": (r) => r.reduce((a, b) => a + b),
+    "-": (r) => r.reduce((a, b) => a - b),
+    "/": (r) => r.reduce((a, b) => a / b),
+    "=": (f, r) => f(r)
+  }
+  const regOp = (args) => {
+    if (args === "=") {
+      if (!Object.keys(mathOps).includes(reducer)) return; // shouldn't be here without a reducer
+      setDisplaying(mathOps[reducer]([parseFloat(computing), parseFloat(displaying)]));
+      setComputing([]); // clear temp
+      setReducer([]); // clear op
+      return
+    }
+    setReducer(args); // future operation
+    setComputing(displaying); // past memory
+    setDisplaying(""); // present memory
+  }
   // STEP 5 - After you get the components displaying using the provided data file, write your state hooks here.
   // Once the state hooks are in place write some functions to hold data in state and update that data depending on what it needs to be doing
   // Your functions should accept a parameter of the the item data being displayed to the DOM (ie - should recieve 5 if the user clicks on
@@ -25,11 +52,11 @@ function App() {
       <Logo />
       <div className="App">
         {<Display stdout={displaying} />}
-        {<Specials />}
+        {<Specials specialOp={specialOp} />}
         <div style={{display: "flex", justifyContent: "center"}}>
-          {<Numbers />}{<Operators />}
+          {<Numbers setDisplay={setDisplay} />}{<Operators regOp={regOp}/>}
         </div>
-      </div>
+      </div> 
     </div>
   );
 }
