@@ -13,33 +13,14 @@ import Logo from "./components/DisplayComponents/Logo";
 function App() {
   const [displaying, setDisplaying] = useState(0);
   const [reducer, setReducer] = useState([]);
-  const [computing, setComputing] = useState([]);
+  const [computing, setComputing] = useState(""); // CSV 
+  const addNum = (num) => (computing.length === 0) ? setComputing(num):setComputing([computing, num].join(','));
   const setDisplay = (args) => {
     const nextDisplay = (args === ".") ? ((displaying.includes(".")) ? displaying:[displaying, args].join("")):[displaying, args].join(""); // 1 decimal point only
-    setDisplaying(nextDisplay.endsWith(".") ? nextDisplay:String(Math.abs(nextDisplay))); // no leading zero
-  }
-  
-  const standAloneOps = {
-    "C": () => {
-      setDisplaying("0");
-      setComputing([]);
-      setReducer([]);
-    },
-    "+/-": () => setDisplaying(0 - (parseFloat(displaying)))
-  }
-
-  const specialOp = (args) => {
-    if (args === "%") {
-      // treat mod as normal operation
-      setReducer(args); // future operation
-      setComputing(displaying); // past memory
-      setDisplaying("0"); // present memory
-      return
-    }
-    if (!Object.keys(standAloneOps).includes(args)) return
-    standAloneOps[args](); // no arguments necessary
+    setDisplaying(nextDisplay.endsWith(".") ? nextDisplay:String(Math.abs(nextDisplay))); // no leading zeros
   }
   const mathOps = {
+    // dispatch Math calls
     "*": (r) => r.reduce((a, b) => a * b),
     "+": (r) => r.reduce((a, b) => a + b),
     "-": (r) => r.reduce((a, b) => a - b),
@@ -47,16 +28,47 @@ function App() {
     "%": (r) => r.reduce((a, b) => a % b),
     "=": (f, r) => f(r)
   }
-  const regOp = (args) => {
-    if (args === "=") {
-      if (!Object.keys(mathOps).includes(reducer)) return; // shouldn't be here without a reducer
-      setDisplaying(mathOps[reducer]([parseFloat(computing), parseFloat(displaying)]));
-      setComputing([]); // clear temp
-      setReducer([]); // clear op
+  const standAloneOps = {
+    // dispatch calls that don't have params
+    "C": () => {
+      setDisplaying("0");
+      setComputing([]);
+      setReducer([]);
+    },
+    "+/-": () => setDisplaying(0 - (parseFloat(displaying)))
+  }
+  const specialOp = (args) => {
+    // special operators
+    if (args === "%") {
+      // treat mod as normal operation
+      setReducer(args); // future operation
+      addNum(displaying); // past memory
+      setDisplaying("0"); // present memory
       return
     }
+    if (!Object.keys(standAloneOps).includes(args)) return
+    standAloneOps[args](); // no arguments necessary
+  }
+  const regOp = (args) => {
+    // regular operators
+    addNum(displaying); // add number to the list of comma separated values
+    if (args === "=") {
+      if (!Object.keys(mathOps).includes(reducer)) return; // shouldn't be here without a reducer
+      const numberArray = [computing, displaying].join(',').split(','); // cast result as Array.
+      setDisplaying(mathOps[reducer](numberArray.map(parseFloat))); // compute & update display.
+      setComputing(""); // clear memory (past)
+      setReducer([]); // clear the operation.
+      return true
+    }
+    if (Object.keys(mathOps).includes(reducer) && reducer !== []) {
+      const numberArray = [computing, displaying].join(',').split(','); // cast result as Array.
+      setComputing(mathOps[reducer](numberArray.map(parseFloat))); // compute and store result.
+      setReducer(args); // future operation.
+      setDisplaying(""); // clear display.
+      return true
+    }
     setReducer(args); // future operation
-    setComputing(displaying); // past memory
+    addNum(displaying); // store in past memory
     setDisplaying(""); // present memory
   }
   // STEP 5 - After you get the components displaying using the provided data file, write your state hooks here.
