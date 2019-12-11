@@ -1,0 +1,18 @@
+.Operators {
+    display: flex;
+    flex-flow: column;
+}
+
+.OperatorButton {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-color: white;
+    width: 4rem;
+    height: 4rem;
+    margin: .2rem;
+    text-align: center;
+    align-items: center;
+    border-radius: 15px;
+    border: 1px solid black;
+}
