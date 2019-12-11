@@ -18,14 +18,33 @@ function App() {
     const nextDisplay = (args === ".") ? ((displaying.includes(".")) ? displaying:[displaying, args].join("")):[displaying, args].join(""); // 1 decimal point only
     setDisplaying(nextDisplay.endsWith(".") ? nextDisplay:String(Math.abs(nextDisplay))); // no leading zero
   }
+  
+  const standAloneOps = {
+    "C": () => {
+      setDisplaying("0");
+      setComputing([]);
+      setReducer([]);
+    },
+    "+/-": () => setDisplaying(0 - (parseFloat(displaying)))
+  }
+
   const specialOp = (args) => {
-    if (args === "C") setDisplaying("0");
+    if (args === "%") {
+      // treat mod as normal operation
+      setReducer(args); // future operation
+      setComputing(displaying); // past memory
+      setDisplaying("0"); // present memory
+      return
+    }
+    if (!Object.keys(standAloneOps).includes(args)) return
+    standAloneOps[args](); // no arguments necessary
   }
   const mathOps = {
     "*": (r) => r.reduce((a, b) => a * b),
     "+": (r) => r.reduce((a, b) => a + b),
     "-": (r) => r.reduce((a, b) => a - b),
     "/": (r) => r.reduce((a, b) => a / b),
+    "%": (r) => r.reduce((a, b) => a % b),
     "=": (f, r) => f(r)
   }
   const regOp = (args) => {
