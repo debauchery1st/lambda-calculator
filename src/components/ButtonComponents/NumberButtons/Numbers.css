@@ -3,6 +3,7 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
+    max-width: 20rem;
 }
 
 .NumberButton {
@@ -10,10 +11,10 @@
     justify-content: center;
     background-color: grey;
     height: 25%;
-    width: 7.7rem;
+    width: 5rem;
     /* height: 7rem; */
     text-align: center;
     align-items: center;
-    border-radius: 5px;
+    border-radius: 2rem;
     border: 1px solid black;
 }
